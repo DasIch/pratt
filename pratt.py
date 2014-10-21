@@ -53,7 +53,7 @@ class Grammar(object):
             else:
                 raise RuntimeError('left_denotation already defined')
 
-    def _create_or_update_definition(self, type, left_binding_power=None,
+    def _create_or_update_definition(self, type, left_binding_power=0,
                                      null_denotation=None,
                                      left_denotation=None):
         if type in self._definitions:
