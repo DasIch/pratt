@@ -14,5 +14,6 @@ setup(
     version='0.1.0',
     url='https://github.com/DasIch/pratt',
     author='Daniel Neuhäuser',
-    author_email='ich@danielneuhaeuser.de'
+    author_email='ich@danielneuhaeuser.de',
+    py_modules=['pratt']
 )
