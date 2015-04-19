@@ -8,6 +8,13 @@
 """
 
 
+#: The library version as a string.
+__version__ = '0.2.0'
+
+#: The library version as a tuple ``(major, minor, patch)``.
+__version_info__ = (0, 2, 0)
+
+
 class PrattException(Exception):
     """
     Base class for exceptions raised by Pratt.
