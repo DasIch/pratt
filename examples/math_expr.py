@@ -9,6 +9,7 @@
     :copyright: 2015 by Daniel Neuhäuser
     :license: BSD, see LICENSE.rst for details
 """
+from __future__ import print_function
 import re
 import sys
 from operator import itemgetter
@@ -16,7 +17,7 @@ from operator import itemgetter
 from pratt import Grammar, Parser
 
 
-token_re = re.compile(ur"""
+token_re = re.compile(r"""
     (?P<int>\d+)|
     (?P<add>\+)|
     (?P<sub>-)|
@@ -36,7 +37,7 @@ def tokenize(string):
     `right_paren` and `end`. Lexemes are always strings.
     """
     for match in token_re.finditer(string):
-        for type, lexeme in match.groupdict().iteritems():
+        for type, lexeme in match.groupdict().items():
             if lexeme is None or type == 'whitespace':
                 continue
             yield type, lexeme
@@ -149,5 +150,5 @@ def evaluate(string):
 
 if __name__ == '__main__':
     expression = ' '.join(sys.argv[1:])
-    print '> {}'.format(expression)
-    print evaluate(expression)
+    print('> {}'.format(expression))
+    print(evaluate(expression))
