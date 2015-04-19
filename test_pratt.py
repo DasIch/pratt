@@ -142,6 +142,25 @@ def test_enclosing():
     assert result == 1
 
 
+def test_ternary():
+    grammar = Grammar(_get_token_type)
+    grammar.symbol('EOF')
+    @grammar.literal('integer')
+    def integer(token):
+        return int(token)
+    @grammar.ternary('if', 'else', 10)
+    def if_else(first_sep, second_sep, then, condition, orelse):
+        assert first_sep == 'if'
+        assert second_sep == 'else'
+        assert then == 1
+        assert condition == 2
+        assert orelse == 3
+        return 'foo'
+    parser = Parser(grammar, iter(['1', 'if', '2', 'else', '3', 'EOF']))
+    result = parser.parse()
+    assert result == 'foo'
+
+
 def test_null_denotation_is_called_at_expression_start():
     grammar = Grammar(_get_token_type, _handle_unexpected_token)
     grammar.symbol('EOF')

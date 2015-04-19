@@ -12,6 +12,7 @@ Version 0.2.0
   subclassed by :exc:`pratt.UnexpectedToken`. It's primary reason for existance
   is to serve as a base class for future exceptions.
 - Added documentation.
+- Added :meth:`pratt.Grammar.ternary`.
 
 
 Version 0.1.1

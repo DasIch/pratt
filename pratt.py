@@ -248,6 +248,30 @@ class Grammar(object):
             return function
         return decorate
 
+    def ternary(self, first_separator, second_separator, binding_power):
+        """
+        A decorator for defining ternary operators (such as :? or ..if..else).
+        Defines a left denotation for the first seperator.
+
+        Usage::
+
+            @grammar.ternary('if', 'else', 20)
+            def if_else(if_token, else_token, then, condition, orelse):
+                # do something
+                ...
+                return result
+        """
+        def decorate(function):
+            @self.left_denotation(first_separator, binding_power)
+            def left_denotation(first_sep, parser, first):
+                second = parser.parse()
+                second_sep = parser.advance(second_separator)
+                third = parser.parse()
+                return function(first_sep, second_sep, first, second, third)
+            self.symbol(second_separator)
+            return function
+        return decorate
+
 
     def _get_definition(self, token):
         type = self.get_token_type(token)
