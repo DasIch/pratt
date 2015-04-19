@@ -11,6 +11,8 @@ Version 0.2.0
 - Added :exc:`pratt.PrattException`. At the moment it's not raised and only
   subclassed by :exc:`pratt.UnexpectedToken`. It's primary reason for existance
   is to serve as a base class for future exceptions.
+- Added documentation.
+
 
 Version 0.1.1
 -------------
