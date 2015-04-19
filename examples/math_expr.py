@@ -122,19 +122,9 @@ def infix_div(token, left, right):
     return left // right
 
 
-@grammar.null_denotation('left_paren')
-def parenthesis(token, parser):
-    # Mathematical expressions would be useless without parenthesis. Here
-    # we define a null denotation with a left binding power of 0. This will
-    # be called as soon as the parser encounters it, we then call the parser
-    # again recursively and skip past the closing parenthesis.
-    expression = parser.parse()
-    parser.advance('right_paren')
-    return expression
-
-# Similar to the end token we made the parser aware of in the beginning, we
-# have to do the same for the right or closing parenthesis.
-grammar.symbol('right_paren')
+@grammar.enclosing('left_paren', 'right_paren', 0)
+def parenthesis(left_paren, right_paren, body):
+    return body
 
 
 def evaluate(string):
