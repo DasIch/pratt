@@ -193,6 +193,28 @@ class Grammar(object):
             return function
         return decorate
 
+    def enclosing(self, begin, end, binding_power):
+        """
+        A decorator for defining expressions that enclose others such as
+        parentheses.
+
+        Usage::
+
+            @grammar.enclosing('(', ')', lbp)
+            def parentheses(left, right, body):
+                return body
+        """
+        def decorate(function):
+            @self.null_denotation(begin, binding_power)
+            def null_denotation(left_token, parser):
+                body = parser.parse()
+                right_token = parser.advance(end)
+                return function(left_token, right_token, body)
+            self.symbol(end)
+            return function
+        return decorate
+
+
     def _get_definition(self, token):
         type = self.get_token_type(token)
         try:

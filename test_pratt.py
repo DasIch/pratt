@@ -22,7 +22,7 @@ def _handle_unexpected_token(token):
 
 
 def _tokenizer(string):
-    return iter(re.findall(r'\+|\-|\*\*|\*|/|\d+', string) + ['EOF'])
+    return iter(re.findall(r'\+|\-|\*\*|\*|/|\(|\)|\d+', string) + ['EOF'])
 
 
 def test_handle_unexpected_token_is_called():
@@ -115,6 +115,21 @@ def test_postfix():
     parser = Parser(grammar, _tokenizer('1-'))
     result = parser.parse()
     assert result == -1
+
+
+def test_enclosing():
+    grammar = Grammar(_get_token_type, _handle_unexpected_token)
+    grammar.symbol('EOF')
+    @grammar.literal('integer')
+    def integer(token):
+        return int(token)
+    @grammar.enclosing('(', ')', 100)
+    def parentheses(left_paren, right_paren, body):
+        assert body == 1
+        return body
+    parser = Parser(grammar, _tokenizer('(1)'))
+    result = parser.parse()
+    assert result == 1
 
 
 def test_null_denotation_is_called_at_expression_start():
