@@ -8,6 +8,31 @@
 """
 
 
+class PrattException(Exception):
+    """
+    Base class for exceptions raised by Pratt.
+    """
+
+
+class UnexpectedToken(PrattException):
+    """
+    Raised when a token is encountered that is not expected at all or not
+    expected in the position it was found (null_denotation or left_denotation)
+    is missing.
+    """
+    def __init__(self, token):
+        super(UnexpectedToken, self).__init__(token)
+        #: The unexpected token.
+        self.token = token
+
+
+def handle_unexpected_token(token):
+    """
+    Default unexpected token handler that raises :exc:`UnexpectedToken`.
+    """
+    raise UnexpectedToken(token)
+
+
 class Grammar(object):
     """
     Grammar objects define the `left_binding_power`, `null_denotation`,
@@ -19,10 +44,12 @@ class Grammar(object):
 
     :param handle_unexpected_token:
         A function that gets called when an unexpected token is encountered,
-        must raise an exception.
+        must raise an exception. The default implementation raises an
+        :exc:`UnexpectedToken` error.
     """
 
-    def __init__(self, get_token_type, handle_unexpected_token):
+    def __init__(self, get_token_type,
+                 handle_unexpected_token=handle_unexpected_token):
         self.get_token_type = get_token_type
         self.handle_unexpected_token = handle_unexpected_token
         self._definitions = {}

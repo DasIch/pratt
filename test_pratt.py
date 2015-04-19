@@ -8,7 +8,7 @@
 """
 import re
 
-from pratt import Grammar, Parser
+from pratt import Grammar, Parser, UnexpectedToken
 
 from pytest import raises
 
@@ -45,6 +45,16 @@ def test_handle_unexpected_token_not_raising():
 
     with raises(RuntimeError):
         parser.parse()
+
+
+def test_handle_unexpected_token_default():
+    grammar = Grammar(_get_token_type)
+    parser = Parser(grammar, _tokenizer('1 + 1'))
+
+    with raises(UnexpectedToken) as exc_info:
+        parser.parse()
+
+    assert exc_info.value.token == '1'
 
 
 def test_literal():
