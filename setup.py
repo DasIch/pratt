@@ -3,7 +3,7 @@
     setup
     ~~~~~
 
-    :copyright: 2014 by Daniel Neuhäuser
+    :copyright: 2014-2015 by Daniel Neuhäuser
     :license: BSD, see LICENSE.rst for details
 """
 import os
